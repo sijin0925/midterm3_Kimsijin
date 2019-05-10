@@ -1,4 +1,4 @@
-package midterm3_Kimsijin;
+package org.sijin.midterm3_Kimsijin;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package midterm3_Kimsijin;
+package org.sijin.midterm3_Kimsijin;
 
 import java.util.List;
 
@@ -6,13 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
+@Repository("PostDao")
 public class PostDaoImplUsingSpringJdbc implements PostDao {
 
-	static final String ADD_POST = "INSERT INTO post(userId,name,context) VALUES(?,?,?)";
-	static final String LIST_POST = "SELECT postId, userId, name, context,sweet,cdate FROM post ORDER BY postId desc";
-	static final String LIKE_POST = "update post set sweet = sweet+1 when postid=?";
-	static final String GET_POST = "SELECT postId, userId, name, context, cdate FROM post WHERE articleId=?";
+	static final String ADD_POST = "INSERT post(userId,name,content) VALUES(?,?,?)";
+	static final String LIST_POST = "SELECT postId,userId,name,content,sweet,cdate FROM post ORDER BY postId desc LIMIT ?,?";
+	static final String LIKE_POST = "UPDATE post SET sweet = sweet+1 WHERE postId=?";
+	static final String GET_POST = "SELECT postId, userId, name, content, sweet, cdate FROM post WHERE postId=?";
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -25,7 +27,7 @@ public class PostDaoImplUsingSpringJdbc implements PostDao {
 
 	@Override
 	public List<Post> listPost(int offset, int count) {
-		return jdbcTemplate.query(LIST_POST, postRowMapper,offset,count);
+		return jdbcTemplate.query(LIST_POST, postRowMapper, offset, count);
 	}
 
 	@Override
